@@ -3,5 +3,4 @@
 
 This is my README file!
 
-![workflow](https://github.com/<UserName>/<RepositoryName>/actions/workflows/main.yml/badge.svg)
- 
+[![A workflow for my Hello World App](https://github.com/JONHENDO/seMethods/actions/workflows/main.yml/badge.svg)](https://github.com/JONHENDO/seMethods/actions/workflows/main.yml) 
