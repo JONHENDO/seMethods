@@ -1,4 +1,4 @@
-# USE CASE: 11 Delete an Employee's Details
+# USE CASE: 8 Delete an Employee's Details
 
 ## CHARACTERISTIC INFORMATION
 
