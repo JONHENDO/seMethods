@@ -2,21 +2,26 @@ package com.napier.sem;
 
 import java.sql.*;
 
+
 public class App
 {
     public static void main(String[] args)
     {
-        System.out.println("App started");
+        System.out.println("App started 2");
+
+        // Ask user for title
+
+        //Edit with job title e.g. 'Engineer', 'Senior Engineer', etc.
+        String title = "Engineer";
+
 
         // Create new Application
         App a = new App();
 
         // Connect to database
         a.connect();
-        // Get Employee
-        Employee emp = a.getEmployee(255530);
-        // Display results
-        a.displayEmployee(emp);
+        // Get Employees by title
+        a.getEmployeesByTitle(title);
 
         // Disconnect from database
         a.disconnect();
@@ -92,37 +97,41 @@ public class App
         }
     }
 
-    public Employee getEmployee(int ID)
+    public void getEmployeesByTitle(String title)
     {
         try
         {
-            // Create an SQL statement
             Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT emp_no, first_name, last_name "
-                            + "FROM employees "
-                            + "WHERE emp_no = " + ID;
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Return new employee if valid.
-            // Check one is returned
-            if (rset.next())
+
+            String query =
+                    "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary, titles.title " +
+                            "FROM employees " +
+                            "JOIN salaries ON employees.emp_no = salaries.emp_no " +
+                            "JOIN titles ON employees.emp_no = titles.emp_no " +
+                            "WHERE salaries.to_date = '9999-01-01' " +
+                            "AND titles.to_date = '9999-01-01' " +
+                            "AND titles.title = '" + title + "' " +
+                            "ORDER BY employees.emp_no ASC";
+
+            ResultSet rset = stmt.executeQuery(query);
+
+            while (rset.next())
             {
                 Employee emp = new Employee();
                 emp.emp_no = rset.getInt("emp_no");
                 emp.first_name = rset.getString("first_name");
                 emp.last_name = rset.getString("last_name");
-                return emp;
+                emp.salary = rset.getInt("salary");
+                emp.title = rset.getString("title");
+
+                // Display each employee
+                displayEmployee(emp);
             }
-            else
-                return null;
         }
         catch (Exception e)
         {
             System.out.println(e.getMessage());
             System.out.println("Failed to get employee details");
-            return null;
         }
     }
     public void displayEmployee(Employee emp)
