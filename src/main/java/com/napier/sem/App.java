@@ -4,6 +4,28 @@ import java.sql.*;
 
 public class App
 {
+    public static void main(String[] args)
+    {
+        System.out.println("App started");
+
+        // Create new Application
+        App a = new App();
+
+        // Connect to database
+        a.connect();
+        // Get Employee
+        Employee emp = a.getEmployee(255530);
+        // Display results
+        a.displayEmployee(emp);
+
+        // Disconnect from database
+        a.disconnect();
+
+
+
+    }
+
+
 
     /**
      * Connection to MySQL database.
@@ -101,6 +123,20 @@ public class App
             System.out.println(e.getMessage());
             System.out.println("Failed to get employee details");
             return null;
+        }
+    }
+    public void displayEmployee(Employee emp)
+    {
+        if (emp != null)
+        {
+            System.out.println(
+                    emp.emp_no + " "
+                            + emp.first_name + " "
+                            + emp.last_name + "\n"
+                            + emp.title + "\n"
+                            + "Salary:" + emp.salary + "\n"
+                            + emp.dept_name + "\n"
+                            + "Manager: " + emp.manager + "\n");
         }
     }
 
